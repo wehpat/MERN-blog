@@ -2,7 +2,7 @@ import { Button, Label, TextInput, Alert, Spinner } from 'flowbite-react'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-export default function Signup() {
+export default function SignUp() {
   const [formData, setFormData] = React.useState({});
   const [errorMessage, setErrorMessage] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
