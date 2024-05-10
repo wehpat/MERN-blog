@@ -15,10 +15,11 @@ import {
   signoutSuccess,
  } from '../redux/user/userSlice.js';
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 
 export default function DashProfile() {
-  const {currentUser, error} = useSelector((state) => state.user);
+  const {currentUser, error, loading} = useSelector((state) => state.user);
   const [imageFile, setImageFile] = React.useState(null);
   const [imageFileUrl, setImageFileUrl] = React.useState(null);
   const filePickerRef = React.useRef();
@@ -202,9 +203,22 @@ export default function DashProfile() {
         onChange={handleChange}
         autoComplete='on'
         />
-        <Button type='submit' gradientDuoTone='purpleToBlue' outline>
-          Update
+        <Button type='submit' gradientDuoTone='purpleToBlue' outline disabled={loading || imageFileUploading}
+        >
+          {loading? "Loading..." : "Update"}
         </Button>
+        {
+          currentUser.isAdmin && (
+            <Link to={'/create-post'}>
+              <Button
+              type='button'
+              gradientDuoTone='purpleToPink'
+              className='w-full'>
+                Create a post
+              </Button>
+            </Link>
+          )
+        }
       </form>
       <div className='text-red-500 flex justify-between'>
         <span onClick={() => setShowModal(true)} className='cursor-pointer'>Delete Account</span>
