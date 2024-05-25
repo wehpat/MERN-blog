@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema (
     {
-        useId: {
+        userId: {
             type: String,
             required: true,
         },
@@ -21,7 +21,7 @@ const postSchema = new mongoose.Schema (
             
         },
         category: {
-            type: "String",
+            type: String,
             default: 'uncategorized',
         },
         slug: {
@@ -30,8 +30,9 @@ const postSchema = new mongoose.Schema (
             unique: true,
         },
 
-    }, { timestamps: true }
-)
+    }, 
+    { timestamps: true }
+);
 
 const Post = mongoose.model('Post', postSchema);
 
