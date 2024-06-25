@@ -24,7 +24,7 @@ export default function UpdatePost() {
 
   const navigate = useNavigate();
   const { currentUser } = useSelector((state)=> state.user);
-  console.log(formData)
+  console.log(formData._id)
 
   React.useEffect(() => {
     try {
@@ -88,6 +88,7 @@ export default function UpdatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData)
     try {
       const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
         method: 'PUT',
@@ -98,8 +99,7 @@ export default function UpdatePost() {
       });
       const data = await res.json();
       if (!res.ok) {
-
-        setPublishError(data.message)
+        setPublishError(data.message);
         return;
       } 
       if (res.ok) {
@@ -132,7 +132,7 @@ export default function UpdatePost() {
             value={formData.category}
             >
               <option value='uncategorized'>Select a category</option>
-              <option value='javascript'>javascript</option>
+              <option value='javascript'>JavaScript</option>
               <option value='reactjs'>React.js</option>
               <option value='nextjs'>Next.js</option>
             </Select>
