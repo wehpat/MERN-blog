@@ -51,33 +51,41 @@ export default function CommentSection({postId}) {
     }, [postId])
 
     
-const handleLike = async (commentId) => {
-    try {
-        if(!currentUser) {
-            navigate('/sign-in');
-            return;
+    const handleLike = async (commentId) => {
+        try {
+            if(!currentUser) {
+                navigate('/sign-in');
+                return;
+            }
+            const res = await fetch(`/api/comment/likeComment/${commentId}`, {
+                method: 'PUT',
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setComments(
+                    comments.map((comment)=>
+                            comment._id === commentId 
+                            ? {
+                                    ...comment,
+                                    likes: data.likes,
+                                    numberOfLikes: data.numberOfLikes
+                            }
+                : comment
+                ));
+            }
+        } catch (err) {
+            console.log(err.message)
         }
-        const res = await fetch(`/api/comment/likeComment/${commentId}`, {
-            method: 'PUT',
-        });
-        if (res.ok) {
-            const data = await res.json();
-            setComments(
-                 comments.map((comment)=>
-                        comment._id === commentId 
-                        ? {
-                                ...comment,
-                                likes: data.likes,
-                                numberOfLikes: data.numberOfLikes
-                        }
-             : comment
-            ));
-        }
-    } catch (err) {
-        console.log(err.message)
     }
-}
-  return (
+
+    const handleEdit = async (comment, editedContent) => {
+        setComments(
+            comments.map((c) => 
+                c._id === comment._id ? { ...c, content: editedContent} : c
+            ) 
+        );
+    };
+  return ( 
     <div className='max-w-2xl mx-auto w-full p-3'>
         { currentUser ? 
         (
@@ -135,7 +143,7 @@ const handleLike = async (commentId) => {
                     </div>
                 </div>
                 { comments.map((comment) => (
-                        <Comment key={comment._id} comment = {comment} onLike={handleLike}/>
+                        <Comment key={comment._id} comment = {comment} onLike={handleLike} onEdit={handleEdit}/>
                     ))}
             </>
         )}
