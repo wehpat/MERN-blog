@@ -14,6 +14,7 @@ import CreatePost from "./pages/CreatePost.jsx"
 import UpdatePost from "./pages/UpdatePost.jsx"
 import PostPage from "./pages/PostPage.jsx"
 import ScrollToUp from "./components/ScrollToUp.jsx"
+import Search from "./pages/Search.jsx"
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <Route path= "/about" element ={<About/>}/>
         <Route path= "/sign-in" element ={<Signin/>}/>
         <Route path= "/sign-up" element ={<Signup/>}/>
+        <Route path= "/search" element ={<Search/>}/>
         <Route element= {<PrivateRoute/>}>
           <Route path= "/dashboard" element ={<Dashboard/>}/>
         </Route>
