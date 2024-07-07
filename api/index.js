@@ -7,6 +7,7 @@ import postRoute from "./routes/post.route.js";
 import commentRoute from "./routes/comment.route.js";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
+import path from 'path';
 
 dotenv.config();
 
@@ -28,11 +29,18 @@ mongoose
     .catch((error) => {
         console.log(error);
     });
+    const __dirname = path.resolve();
 
 app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/post', postRoute);
-app.use('/api/comment', commentRoute);  
+app.use('/api/comment', commentRoute);
+
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+})
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
